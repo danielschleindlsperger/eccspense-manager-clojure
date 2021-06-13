@@ -3,15 +3,15 @@
             [duratom.core :refer [duratom]]
             [eccspense-manager.api.domain.repositories :refer [TransactionRepository]]))
 
-;; simulate sqlites "auto-increment" ids
+;; simulate the "auto-increment" ids of sql databases
 (def current-id (atom 0))
 (defn next-id []
   (swap! current-id inc))
 
 
-;; Each attribute is an atom wrapping a map of id->entity
-;; This means true transactional behaviour is not possible, but it's not really needed
-;; right now anyway.
+;; Each "table" is a (persistent) atom wrapping a map of id->entity
+;; This means true transactional behaviour across multiple entities is not possible, but it's not really needed
+;; for prototyping anyway.
 (defrecord DuratomDB [transactions categories users]
   TransactionRepository
   (save-transaction! [this tx]
@@ -23,11 +23,7 @@
     (or (vals @(:transactions this)) []))
 
   (delete-transaction! [this id]
-    (prn @(:transactions this))
-    (prn id)
-    (swap! (:transactions this) dissoc id)
-
-    ))
+    (swap! (:transactions this) dissoc id)))
 
 (defmethod ig/init-key ::db [_ _]
   (map->DuratomDB {:transactions (duratom :local-file :commit-mode :sync :file-path "resources/db/transactions" :init {})

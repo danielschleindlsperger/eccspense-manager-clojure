@@ -2,12 +2,12 @@
 
 (set! *warn-on-reflection* true)
 
-(println "Loaded namespace `user`, welcome to syncify api!")
-(println "Run (dev) then (go) to start the application.")
-(println "Run (integrant.repl/reset) to reset after code changes")
+(println "Loaded namespace `user`, welcome to eccspense-manager!")
+(println "Evaluate (dev) then (go) to start the application.")
+(println "Evaluate (integrant.repl/reset) to reset after code changes")
 
 (defn dev
-  "Load and switch to the 'dev' namespace."
+  "Load 'dev' namespace and switch to it."
   []
   (require 'dev)
   (in-ns 'dev)
