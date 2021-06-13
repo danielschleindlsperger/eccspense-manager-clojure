@@ -1,4 +1,5 @@
 (ns eccspense-manager.api.system
+  "Defines the system's main (stateful) components and their inter-dependencies."
   (:require [integrant.core :as ig]
             [eccspense-manager.api.adapters.http-server]
             [eccspense-manager.api.adapters.ring]
