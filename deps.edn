@@ -1,0 +1,50 @@
+{:deps    {org.clojure/clojure                 {:mvn/version "1.10.3"}
+
+           ;; logging
+           com.taoensso/timbre                 {:mvn/version "5.1.2"}
+           com.fzakaria/slf4j-timbre           {:mvn/version "0.3.21"}
+
+           ;; system/config management
+           integrant/integrant                 {:mvn/version "0.8.0"}
+           integrant/repl                      {:mvn/version "0.3.2"}
+           aero/aero                           {:mvn/version "1.1.6"}
+
+           ;; HTTP
+           http-kit/http-kit                   {:mvn/version "2.5.3"}
+           metosin/reitit                      {:mvn/version "0.5.12"}
+           ring/ring-core                      {:mvn/version "1.9.2"}
+           ring/ring-headers                   {:mvn/version "0.3.0"}
+
+           ;; JSON
+           metosin/jsonista                    {:mvn/version "0.3.1"}
+           camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.2"}
+
+           ;; Database
+           com.github.seancorfield/next.jdbc   {:mvn/version "1.2.659"}
+           org.xerial/sqlite-jdbc              {:mvn/version "3.30.1"}
+           ;; persistent atom for prototyping purposes
+           duratom/duratom                     {:mvn/version "0.5.3"}
+
+           ;; validation/modelling
+           metosin/malli                       {:mvn/version "0.4.0"}
+
+           ;; async
+           funcool/promesa                     {:mvn/version "6.0.0"}}
+ :paths   ["src" "resources"]
+ :aliases {:run-m   {:main-opts ["-m" "eccspense-manager.api.main"]}
+           :dev     {:extra-paths ["dev/src" "dev/resources" "test"]}
+           :test    {:extra-paths ["test"]
+                     :extra-deps  {org.clojure/test.check {:mvn/version "1.1.0"}}}
+           :runner  {:extra-deps {com.cognitect/test-runner
+                                  {:git/url "https://github.com/cognitect-labs/test-runner"
+                                   :sha     "b6b3193fcc42659d7e46ecd1884a228993441182"}}
+                     :main-opts  ["-m" "cognitect.test-runner"
+                                  "-d" "test"]}
+           :uberjar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.211"}}
+                     :exec-fn      hf.depstar/uberjar
+                     :exec-args    {:aot        true
+                                    :jar        "target/eccspense-manager-api.jar"
+                                    :main-class "eccspense-manager.api.main"}}
+           :pack   {:extra-deps {pack/pack.alpha {:git/url "https://github.com/juxt/pack.alpha.git"
+                                                  :sha "511c32d4238afb860ad0b16c4827322d80c7d615"}}
+                    :main-opts ["-m"]}}}

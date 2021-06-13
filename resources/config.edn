@@ -1,0 +1,8 @@
+;; available profiles: #{:dev :prod}
+{:port       #long #or [#env PORT 5555]
+ :db-url     #or [#env DB_URL "jdbc:sqlite:resources/db/database.sqlite"]
+ :jwt-secret #env JWT_SECRET
+ :logging    {:level  #profile {:dev  :info
+                                :prod :info}
+              :format #profile {:dev  :text
+                                :prod :json}}}
