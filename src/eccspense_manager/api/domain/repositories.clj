@@ -7,7 +7,8 @@
 (defprotocol TransactionRepository
   (save-transaction! [this tx] "Insert or update a transaction and return its id.")
   (delete-transaction! [this id] "Delete a transaction and return its id.")
-  (all-transactions! [this limit order-bys]))
+  (all-transactions [this limit order-bys])
+  (get-transaction [this id]))
 
 (defprotocol CategoryRepository
   (save-category! [this category])

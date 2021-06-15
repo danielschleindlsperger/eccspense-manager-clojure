@@ -20,11 +20,15 @@
       (swap! (:transactions this) assoc id tx*)
       id))
 
-  (all-transactions! [this _limit _order-bys]
+  (all-transactions [this _limit _order-bys]
     (or (vals @(:transactions this)) []))
 
   (delete-transaction! [this id]
-    (swap! (:transactions this) dissoc id)))
+    (swap! (:transactions this) dissoc id)
+    id)
+
+  (get-transaction [this id]
+    (-> this :transactions deref (get id))))
 
 (defmethod ig/init-key ::db [_ _]
   (map->DuratomDB {:transactions (duratom :local-file :commit-mode :sync :file-path "resources/db/transactions" :init {})
