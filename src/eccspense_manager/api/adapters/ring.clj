@@ -1,14 +1,12 @@
 (ns eccspense-manager.api.adapters.ring
   (:require [integrant.core :as ig]
+            [muuntaja.core :as m]
             [reitit.ring :as ring]
             [reitit.ring.middleware.parameters :as parameters]
+            [reitit.ring.coercion :as rrc]
+            [reitit.ring.middleware.muuntaja :as muuntaja]
             [eccspense-manager.api.adapters.ring.routes :refer [routes]]
             [eccspense-manager.api.adapters.ring.util :refer [wrap-context]]))
-
-(def default-middlewares [;; query-params & form-params
-                          parameters/parameters-middleware
-                          ;; Multipart upload is missing here
-                          ])
 
 (defn default-handler []
   (ring/create-default-handler
@@ -17,14 +15,19 @@
      :not-acceptable     (constantly {:status 406 :body "not acceptable"})}))
 
 
-(def ->router #(ring/router (routes)))
+(def ->router #(ring/router (routes) {:data {:muuntaja   m/instance
+                                             :middleware [;; query-params & form-params
+                                                          parameters/parameters-middleware
+                                                          muuntaja/format-middleware
+                                                          rrc/coerce-exceptions-middleware
+                                                          rrc/coerce-request-middleware
+                                                          rrc/coerce-response-middleware]}}))
 
 (defn app-handler [system]
   (let [router (->router)]
     (ring/ring-handler router
                        (default-handler)
-                       {:middleware (conj default-middlewares
-                                          (wrap-context system))})))
+                       {:middleware [ (wrap-context system) ]})))
 
 (comment
   (def app (app-handler {}))

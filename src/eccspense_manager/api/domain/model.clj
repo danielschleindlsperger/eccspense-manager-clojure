@@ -5,10 +5,10 @@
   [:map
    [:id uuid?]
    [:date inst?]
-   [:amount decimal?]
+   [:amount int?]
    [:counter-party [:string {:max 200}]]
-   [:descr [:string {:max 1000 :optional? true}]]
-   [:category [:string {:max 100 :optional? true}]]])
+   [:descr {:optional true} [:string {:max 1000}]]
+   [:category {:optional true} [:string {:max 100}]]])
 
 (comment
   (mg/generate Transaction))

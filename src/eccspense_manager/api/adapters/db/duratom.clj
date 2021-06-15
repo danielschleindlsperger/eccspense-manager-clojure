@@ -17,7 +17,8 @@
   (save-transaction! [this tx]
     (let [id (or (:id tx) (next-id))
           tx* (assoc tx :id id)]
-      (swap! (:transactions this) assoc id tx*)))
+      (swap! (:transactions this) assoc id tx*)
+      id))
 
   (all-transactions! [this _limit _order-bys]
     (or (vals @(:transactions this)) []))

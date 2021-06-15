@@ -5,8 +5,8 @@
   (save-user! [this user]))
 
 (defprotocol TransactionRepository
-  (save-transaction! [this tx])
-  (delete-transaction! [this id])
+  (save-transaction! [this tx] "Insert or update a transaction and return its id.")
+  (delete-transaction! [this id] "Delete a transaction and return its id.")
   (all-transactions! [this limit order-bys]))
 
 (defprotocol CategoryRepository
