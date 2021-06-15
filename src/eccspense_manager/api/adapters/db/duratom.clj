@@ -4,7 +4,7 @@
             [eccspense-manager.api.domain.repositories :refer [TransactionRepository]]))
 
 ;; simulate the "auto-increment" ids of sql databases
-(def current-id (atom 0))
+(def current-id (duratom :local-file :commit-mode :sync :file-path "resources/db/next-id" :init 0))
 (defn next-id []
   (swap! current-id inc))
 
