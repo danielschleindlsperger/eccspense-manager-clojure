@@ -13,3 +13,5 @@ Blabla Ports and Adapters blabla
 ## TODO
 
 - Map `nil` to 404 response
+- Users
+- Roles and permissions
