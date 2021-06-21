@@ -11,4 +11,3 @@
 
 (defmethod ig/halt-key! ::http-server [_ server]
   (when server (server)))
-
